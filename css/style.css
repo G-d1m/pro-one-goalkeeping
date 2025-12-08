@@ -919,6 +919,7 @@ section.visible {
         gap: 25px; /* Reduced gap */
         padding-left: 50px; /* Push icons to the right of the logo area */
         padding-right: 15px;
+        justify-content: space-around;
     }
     /* Hide text on smaller screens to make icons fit */
     .icon-card span {
@@ -927,12 +928,14 @@ section.visible {
     .icon-card img {
         width: 24px; /* Slightly smaller icons */
     }
+   
     
     /* Move theme switch up */
     .theme-switch {
         padding: 5px;
         right: 15px; 
         top: 10px;
+        
     }
     .logo {
         left: 15px; /* Push logo to the left */
@@ -943,8 +946,63 @@ section.visible {
     .video-carousel{
         min-height: 50px;
     }
-       
-
-
     
+}
+
+/* NEW: Powered By Footer */
+/* NEW: Powered By Footer */
+.powered-by {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 999; /* Below navbar, but above page content */
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.powered-by:hover {
+    opacity: 1;
+}
+
+.powered-by a {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Increased gap */
+    text-decoration: none;
+    color: var(--color-text-secondary);
+}
+
+.powered-by p {
+    margin: 0;
+    font-size: 10px; /* Increased Font Size */
+    color: var(--color-text-secondary);
+    transition: color 0.3s ease;
+}
+
+.powered-by a:hover p {
+    color: var(--accent-green);
+}
+
+.powered-by svg {
+    width: 16px; /* Increased Icon Size */
+    height: 16px; /* Increased Icon Size */
+    fill: var(--color-text-secondary);
+    transition: fill 0.3s ease;
+}
+
+.powered-by a:hover svg {
+    fill: var(--accent-green);
+}
+.light-mode .powered-by svg {
+    filter: brightness(0.4);
+}
+.light-mode .powered-by a:hover svg {
+    filter: none;
+}
+.light-mode .powered-by p {
+    color: var(--color-text-secondary);
+}
+.light-mode .powered-by a:hover p {
+    color: var(--accent-green);
 }
