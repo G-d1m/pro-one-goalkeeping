@@ -1,0 +1,9 @@
+// Cloudflare Workers config: serves the site's static files as they are (no build step).
+// The "name" must match the project name in the Cloudflare dashboard.
+{
+  "name": "pro-one-goalkeeping",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./"
+  }
+}
