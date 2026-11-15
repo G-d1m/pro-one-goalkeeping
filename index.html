@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pro One Goalkeeping</title>
+    <link rel="icon" type="image/png" href="assets/logo/logo.png" />
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body class="index-page">
@@ -48,7 +49,7 @@
           <img src="assets/icons/phone.svg" alt="Contact Icon" />
           <span>Contact Us</span>
         </div>
-        <a href="book.html" class="icon-card" id="book-icon">
+        <a href="#" class="icon-card" id="book-icon">
           <img src="assets/icons/bookk.svg" alt="book Icon" />
           <span>Book</span>
         </a>
@@ -65,10 +66,9 @@
     </section>
 
     <section id="videos" class="video-fs-section">
-      <video class="fs-video active" src="assets/vids/video.mp4" muted playsinline></video>
-      <video class="fs-video" src="assets/vids/video.mp4" muted playsinline></video>
-      <video class="fs-video" src="assets/vids/video.mp4" muted playsinline></video>
-      <video class="fs-video" src="assets/vids/video.mp4" muted playsinline></video>
+      <video class="fs-video active" src="assets/vids/video.mp4" muted playsinline preload="auto"></video>
+      <video class="fs-video" src="assets/vids/vid%202.mp4" muted playsinline preload="metadata"></video>
+      <video class="fs-video fs-video--portrait" src="assets/vids/vid%201.mp4" muted playsinline preload="metadata"></video>
     </section>
 
     <section id="coach" class="section section-coach">
@@ -188,7 +188,7 @@
         <div class="testimonial-slide active">
             <div class="coach-container">
                 <div class="card">
-                    <div class="card-image" style="background-image: url('assets/images/coach.jpg');"></div>
+                    <div class="card-image" style="background-image: url('assets/images/giann.jpg');"></div>
                     <div class="card-info">
                         <p>Giannhs<br> Papadopoulos</p>
                     </div>
@@ -224,7 +224,7 @@
         <div class="testimonial-slide">
             <div class="coach-container">
                 <div class="card">
-                    <div class="card-image" style="background-image: url('assets/images/giann.jpg');"></div>
+                    <div class="card-image" style="background-image: url('assets/images/2.jpg');"></div>
                     <div class="card-info">
                         <p>Stelios<br> Kouris</p>
                     </div>
@@ -244,20 +244,16 @@
     <section id="contact" class="section section-contact two-column">
       <div class="contact">
         <h2 class="section-title">CONTACT US.</h2>
-        <p>Email: info@proonegoalkeeping.com</p>
-        <p>Phone: (+30) 6937970286</p>
-        <p>WhatsApp: (+30) 6937970286</p>
+        <p>Email: <a href="mailto:info@proonegoalkeeping.com">info@proonegoalkeeping.com</a></p>
+        <p>Phone: <a href="tel:+306937970286">(+30) 6937970286</a></p>
+        <p>WhatsApp: <a href="https://wa.me/306937970286" target="_blank" rel="noopener">(+30) 6937970286</a></p>
          <nav class="soc-icons">
-        <div class="icon-card" id="Instagram">
-         <a href="https://www.instagram.com/pro_one_goalkeeping">  <img src="assets/icons/instagram.svg" alt="Instagram" /></a>
+        <div class="icon-card" id="instagram-icon">
+         <a href="https://www.instagram.com/pro_one_goalkeeping" target="_blank" rel="noopener">  <img src="assets/icons/instagram.svg" alt="Instagram" /></a>
           <span>Instagram</span>
         </div>
-        <div class="icon-card" id="facebook-icon">
-         <a href="https://www.facebook.com/"> <img src="assets/icons/facebook.svg" alt="Facebook" /></a>
-          <span>Facebook</span>
-        </div>
-        <div class="icon-card" id="tik tok-icon">
-          <a href="https://www.tiktok.com/@pro_one_goalkeeping?lang=el-GR"> <img src="assets/icons/tiktok.svg" alt="Tik Tok" /></a>
+        <div class="icon-card" id="tiktok-icon">
+          <a href="https://www.tiktok.com/@pro_one_goalkeeping?lang=el-GR" target="_blank" rel="noopener"> <img src="assets/icons/tiktok.svg" alt="Tik Tok" /></a>
           <span>Tik Tok</span>
         </div>
          </nav>
@@ -309,7 +305,7 @@
         <label>Message</label>
         <textarea name="message" rows="4" placeholder="Tell us about your goalkeeping experience..."></textarea>
     </div>
-    <button type="submit" class="submit-button">SENT</button>
+    <button type="submit" class="submit-button">SEND</button>
 </form>
             </div>
         </div>
@@ -323,7 +319,8 @@
         </svg>
     </div>
 </div>
-</div> </div> <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-    </div> </div> <script src="js/script.js"></script>
+     </div> <!-- /.page-wrapper -->
+     </div> <!-- /.over -->
+    <script src="js/script.js"></script>
   </body>
 </html>
