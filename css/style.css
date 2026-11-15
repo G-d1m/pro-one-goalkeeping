@@ -45,26 +45,6 @@ html {
   scrollbar-width: none;
 }
 
-/* Section snapping. Touch screens use the browser's own snapping (below);
-   with a mouse or trackpad, script.js glides to the nearest section once scrolling stops. */
-@media (pointer: coarse) {
-  html { scroll-snap-type: y mandatory; }
-}
-html.modal-open { scroll-snap-type: none; }
-
-/* Invisible snap markers, one per section (added by script.js) */
-.snap-point {
-  position: absolute;
-  left: 0;
-  top: calc(var(--snap-index) * 100vh);
-  top: calc(var(--snap-index) * 100svh);
-  width: 1px;
-  height: 100vh;
-  height: 100svh;
-  scroll-snap-align: start;
-  pointer-events: none;
-}
-
 body {
   position: relative; 
   margin: 0;

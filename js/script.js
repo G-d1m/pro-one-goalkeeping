@@ -37,68 +37,6 @@ Object.keys(scrollMap).forEach(iconId => {
 });
 
 // ==========================================
-// SECTION SNAPPING
-// ==========================================
-
-// Touch screens: CSS does the snapping (scroll-snap-type on html). Sticky
-// sections can't be snap targets themselves (their position changes while they
-// stick), so one invisible full-screen marker is added per section.
-const snapWrapper = document.querySelector('.page-wrapper');
-if (snapWrapper) {
-  allSectionsArray.forEach((section, index) => {
-    const marker = document.createElement('div');
-    marker.className = 'snap-point';
-    marker.setAttribute('aria-hidden', 'true');
-    marker.style.setProperty('--snap-index', index);
-    snapWrapper.appendChild(marker);
-  });
-}
-
-// Mouse / trackpad: the page scrolls freely, and once scrolling stops it glides
-// to the next section in the direction you were going (or back, if you only
-// moved a tiny bit). This keeps it gentle instead of jumping on every wheel tick.
-const finePointer = window.matchMedia('(pointer: fine)');
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-const SNAP_THRESHOLD = 30; // px you need to scroll before it moves on to another section
-let snapAnchor = 0;        // index of the section the page last settled on
-
-const sectionHeight = () => (allSectionsArray[0] ? allSectionsArray[0].offsetHeight : window.innerHeight);
-const resetSnapAnchor = () => { snapAnchor = Math.round(window.scrollY / sectionHeight()); };
-window.addEventListener('load', resetSnapAnchor);
-window.addEventListener('resize', resetSnapAnchor);
-
-function settleOnSection() {
-  if (!finePointer.matches || allSectionsArray.length === 0) return;
-  if (document.body.classList.contains('modal-open')) return;
-
-  const h = sectionHeight();
-  const lastIndex = allSectionsArray.length - 1;
-  const pos = window.scrollY / h; // e.g. 1.3 = 30% of the way from section 1 to section 2
-  const moved = window.scrollY - snapAnchor * h;
-
-  let target = snapAnchor;
-  if (moved > SNAP_THRESHOLD) target = Math.max(snapAnchor + 1, Math.ceil(pos - 0.1));
-  else if (moved < -SNAP_THRESHOLD) target = Math.min(snapAnchor - 1, Math.floor(pos + 0.1));
-  target = Math.min(lastIndex, Math.max(0, target));
-
-  snapAnchor = target;
-  if (Math.abs(window.scrollY - target * h) > 1) {
-    window.scrollTo({ top: target * h, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
-  }
-}
-
-if ('onscrollend' in window) {
-  window.addEventListener('scrollend', settleOnSection);
-} else {
-  // Older Safari: treat 150ms without scroll events as "scrolling stopped"
-  let snapTimer;
-  window.addEventListener('scroll', () => {
-    clearTimeout(snapTimer);
-    snapTimer = setTimeout(settleOnSection, 150);
-  }, { passive: true });
-}
-
-// ==========================================
 // UNIVERSAL STICKY SCROLL SCRUBBING
 // ==========================================
 const allSectionsList = document.querySelectorAll('.page-wrapper > section');
@@ -275,14 +213,12 @@ const successOverlay = document.getElementById('success-overlay');
 function openBookingModal() {
   bookingModal.style.display = 'flex';
   bookingModal.querySelector('.modal-content')?.scrollTo(0, 0);
-  document.documentElement.classList.add('modal-open'); // Lock background scroll
-  document.body.classList.add('modal-open');
+  document.body.classList.add('modal-open'); // Lock background scroll
 }
 
 function closeBookingModal() {
   bookingModal.style.display = 'none';
-  document.documentElement.classList.remove('modal-open'); // Unlock background scroll
-  document.body.classList.remove('modal-open');
+  document.body.classList.remove('modal-open'); // Unlock background scroll
 }
 
 // Close with the Escape key
