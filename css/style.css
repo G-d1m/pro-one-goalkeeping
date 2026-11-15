@@ -169,6 +169,16 @@ body::-webkit-scrollbar {
 .light-mode .icon-card:hover img[src$="video.svg"],
 .light-mode .icon-card:hover img[src$="instagram.svg"] { filter: brightness(0.75) drop-shadow(0 0 8px var(--accent-green)); }
 
+/* Touch screens: no hover glow/lift (on phones it sticks to the last tapped icon) and no grey tap box */
+.icon-card { -webkit-tap-highlight-color: transparent; }
+@media (hover: none) {
+  .icon-card:hover img { transform: none; filter: brightness(0.8); }
+  .icon-card:hover span { opacity: 0; }
+  .light-mode .icon-card:hover img { filter: invert(0.85); }
+  .light-mode .icon-card:hover img[src$="video.svg"],
+  .light-mode .icon-card:hover img[src$="instagram.svg"] { filter: brightness(0.75); }
+}
+
 .theme-switch {
     right: 480px; 
     display: flex;
@@ -192,8 +202,7 @@ body::-webkit-scrollbar {
 .index-page .page-wrapper > section {
     position: sticky;
     top: 0;
-    height: 100vh;
-    height: 100svh; /* phones: fit the visible screen, not the area behind the browser bars */
+    height: 100vh; /* every section is exactly one full screen, including behind the phone browser bars */
     width: 100vw;
     overflow: hidden;
     box-shadow: 0 -30px 60px rgba(0, 0, 0, 0.6); 
@@ -465,14 +474,18 @@ body::-webkit-scrollbar {
 }
 
 .section-testimonials::before {
-    content: ""; position: absolute; left: 0; top: 0; width: 50vw; height: 100%;
+    /* Full width so the glow always fades out smoothly; the radius matches the original
+       half-width layer, so wide screens look the same and tall phones get no hard edge */
+    content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%;
     background: radial-gradient(circle at 0% 50%, hsla(167, 93%, 57%, 1) 0%, hsla(166, 70%, 29%, 1) 47%, hsla(0, 0%, 0%, 1) 84%);
+    background: radial-gradient(circle hypot(50vw, 50vh) at 0% 50%, hsla(167, 93%, 57%, 1) 0%, hsla(166, 70%, 29%, 1) 47%, hsla(0, 0%, 0%, 1) 84%);
     z-index: 0; pointer-events: none;
 }
 
 .light-mode .section-testimonials { background: var(--bg-light); }
 .light-mode .section-testimonials::before {
     background: radial-gradient(circle at 0% 50%, hsla(167, 93%, 57%, 1) 0%, hsla(167, 70%, 72%, 1) 40%, var(--bg-light) 84%);
+    background: radial-gradient(circle hypot(50vw, 50vh) at 0% 50%, hsla(167, 93%, 57%, 1) 0%, hsla(167, 70%, 72%, 1) 40%, var(--bg-light) 84%);
 }
 
 .testimonial-carousel { position: relative; min-height: 450px; }
@@ -725,8 +738,9 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#000000", en
     .hover-desc { display: none; }
 
     /* Stadiums */
-    .stadium-name { font-size: 3.2rem; bottom: 110px; left: 6vw; }
-    .stadium-loc { left: 6vw; right: auto; bottom: 40px; text-align: left; font-size: 0.9rem; }
+    /* (100vh - 100svh) = height of the browser's bottom bar, so the text stays above it */
+    .stadium-name { font-size: 3.2rem; bottom: 110px; bottom: calc(110px + 100vh - 100svh); left: 6vw; }
+    .stadium-loc { left: 6vw; right: auto; bottom: 40px; bottom: calc(40px + 100vh - 100svh); text-align: left; font-size: 0.9rem; }
 
     /* Events */
     .ev-title { font-size: 3rem; }
