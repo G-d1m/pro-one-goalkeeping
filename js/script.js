@@ -39,39 +39,68 @@ Object.keys(scrollMap).forEach(iconId => {
 
 // ==========================================
 // UNIVERSAL STICKY SCROLL SCRUBBING
+// As the next section slides up, the current section's content fades and lifts.
+// Runs at most once per frame, never measures the layout (sections are stacked,
+// so section i starts at i * screen height) and only touches elements whose
+// value actually changed - this keeps scrolling smooth on phones.
 // ==========================================
-const allSectionsList = document.querySelectorAll('.page-wrapper > section');
+const allSectionsList = Array.from(document.querySelectorAll('.page-wrapper > section'));
 const heroText = document.getElementById('hero-text-move');
+const SCRUB_SELECTOR = '.section-title, .coach-container, .services-columns, .ev-title, .ev-info, .stadium-name, .stadium-loc, .contact, .testimonial-carousel';
+const scrubTargets = allSectionsList.map(sec => Array.from(sec.querySelectorAll(SCRUB_SELECTOR)));
+const scrubProgress = allSectionsList.map(() => NaN); // last progress applied per section (NaN = not applied yet)
+let scrollTicking = false;
+const videoSectionIndex = allSectionsList.findIndex(sec => sec.id === 'videos');
+let videoWasVisible = true;
 
-window.addEventListener('scroll', () => {
-  let windowHeight = window.innerHeight;
-  let scrollY = window.scrollY;
+function applyScrollEffects() {
+  scrollTicking = false;
+  const h = sectionHeight;
+  const y = window.scrollY;
 
-  if (heroText && scrollY < windowHeight) {
-    heroText.style.transform = `scaleY(0.85) translateX(-${scrollY * 1.2}px)`;
+  if (heroText && y < h) {
+    heroText.style.transform = `scaleY(0.85) translate3d(-${y * 1.2}px, 0, 0)`;
   }
 
-  allSectionsList.forEach((sec, index) => {
-    const nextSec = allSectionsList[index + 1];
-    if (nextSec) {
-      let nextTop = nextSec.getBoundingClientRect().top;
-      if (nextTop < windowHeight && nextTop > 0) {
-        let progress = 1 - (nextTop / windowHeight);
-        const contentElements = sec.querySelectorAll('.section-title, .coach-container, .services-columns, .ev-title, .ev-info, .stadium-name, .stadium-loc, .contact, .testimonial-carousel');
-        contentElements.forEach(el => {
-          el.style.opacity = 1 - (progress * 2.5);
-          el.style.transform = `translateY(${progress * -100}px)`;
-        });
-      } else if (nextTop >= windowHeight) {
-        const contentElements = sec.querySelectorAll('.section-title, .coach-container, .services-columns, .ev-title, .ev-info, .stadium-name, .stadium-loc, .contact, .testimonial-carousel');
-        contentElements.forEach(el => {
-          el.style.opacity = 1;
-          el.style.transform = `translateY(0px)`;
-        });
-      }
+  // Play the full-screen video only while its section can be seen (it is hidden
+  // under the next sections after that, so decoding it would only waste power)
+  if (videoSectionIndex !== -1) {
+    const videoVisible = y < (videoSectionIndex + 1) * h;
+    if (videoVisible !== videoWasVisible) {
+      videoWasVisible = videoVisible;
+      const v = document.querySelector('.fs-video.active');
+      if (v) { if (videoVisible) v.play().catch(() => {}); else v.pause(); }
     }
-  });
+  }
+
+  for (let i = 0; i < allSectionsList.length - 1; i++) {
+    // How far the next section has covered this one: 0 = not at all, 1 = fully
+    const progress = Math.min(1, Math.max(0, (y - i * h) / h));
+    if (progress === scrubProgress[i]) continue;
+    scrubProgress[i] = progress;
+    const opacity = Math.max(0, 1 - progress * 2.5);
+    const transform = `translate3d(0, ${progress * -100}px, 0)`;
+    scrubTargets[i].forEach(el => {
+      el.style.opacity = opacity;
+      el.style.transform = transform;
+    });
+  }
+}
+
+window.addEventListener('scroll', () => {
+  if (!scrollTicking) {
+    scrollTicking = true;
+    requestAnimationFrame(applyScrollEffects);
+  }
+}, { passive: true });
+// Section height is read only on load/resize (sections are 100vh, which on phones
+// can differ from innerHeight while the browser bars are showing)
+let sectionHeight = allSectionsList[0] ? allSectionsList[0].offsetHeight : window.innerHeight;
+window.addEventListener('resize', () => {
+  sectionHeight = allSectionsList[0] ? allSectionsList[0].offsetHeight : window.innerHeight;
+  applyScrollEffects();
 });
+applyScrollEffects();
 
 // ==========================================
 // CAROUSELS (VIDEO, STADIUM, EVENTS)
@@ -85,7 +114,7 @@ if (fsVideos.length > 0) {
       fsVideos[currentFsVideo].classList.remove('active');
       currentFsVideo = (currentFsVideo + 1) % fsVideos.length;
       fsVideos[currentFsVideo].classList.add('active');
-      fsVideos[currentFsVideo].play();
+      if (videoWasVisible) fsVideos[currentFsVideo].play().catch(() => {});
     });
   });
 }

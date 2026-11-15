@@ -707,6 +707,19 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#000000", en
     to { background: transparent; backdrop-filter: blur(0px); }
 }
 
+/* ==================== SMOOTH SCROLLING ON PHONES ====================
+   Phones struggle to repaint big blurred shadows and live background blur while
+   scrolling, so on touch screens these are swapped for cheaper look-alikes. */
+@media (hover: none), (max-width: 768px) {
+    .index-page .page-wrapper > section { box-shadow: none; }
+    .nav-icons, .card, .ev-info { backdrop-filter: none; -webkit-backdrop-filter: none; }
+    .nav-icons { background: rgba(20, 20, 20, 0.92); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35); }
+    .light-mode .nav-icons { background: rgba(255, 255, 255, 0.95); }
+    .ev-info { background: rgba(15, 15, 15, 0.96); box-shadow: none; }
+    .light-mode .ev-info { background: rgba(255, 255, 255, 0.96); box-shadow: none; }
+    .card { box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); }
+}
+
 /* ==================== PHONES ==================== */
 @media (max-width: 768px) {
     /* Navbar: logo on the left, icon pill fills the rest of the row */
