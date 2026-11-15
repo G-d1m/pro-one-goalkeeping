@@ -31,3 +31,5 @@ The booking form sends submissions through [Web3Forms](https://web3forms.com).
 ## Browser support
 
 Works in current Chrome, Safari, Firefox and Edge, on desktop and phones.
+
+Last updated: November 2026.
