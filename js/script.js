@@ -1,29 +1,21 @@
-// Smooth section reveal on scroll
-const sections = document.querySelectorAll("section");
 
-const revealSection = () => {
-  const triggerBottom = window.innerHeight * 0.85;
-  sections.forEach((sec) => {
-    const boxTop = sec.getBoundingClientRect().top;
-    if (boxTop < triggerBottom) sec.classList.add("visible");
-  });
-};
 
-window.addEventListener("scroll", revealSection);
-revealSection(); // Trigger on load
-
-// Smooth scrolling when clicking nav icons
+// ==========================================
+// MENU NAVIGATION SCROLL (BULLETPROOF LENIS FIX)
+// ==========================================
 const scrollMap = {
-  'logo-icon':'hero',
-  'video-icon': 'videos', 
+  'logo-icon': 'hero',
+  'video-icon': 'videos',
   'coach-icon': 'coach',
-  'services-icon': 'services', 
+  'services-icon': 'services',
   'stadium-icon': 'stadiums',
+  'event-icon': 'Events',
   'testi-icon': 'testimonials',
   'contact-icon': 'contact',
   'book-icon': 'booking'
 };
 
+const allSectionsArray = Array.from(document.querySelectorAll('.page-wrapper > section'));
 
 Object.keys(scrollMap).forEach(iconId => {
   const icon = document.getElementById(iconId);
@@ -32,312 +24,320 @@ Object.keys(scrollMap).forEach(iconId => {
 
   if (icon) {
     icon.addEventListener('click', (e) => {
-        
-        // Prevent default behavior for link elements only if we handle the navigation
-        if (icon.tagName !== 'A') {
-            e.preventDefault(); 
-        }
-        
-        if (targetSection) {
-            // Case 1: Target section is on the current page (Smooth Scroll)
-            const offset = 70; 
-            const topPos = targetSection.offsetTop - offset;
+      // 1. ALWAYS stop the browser from trying to natively jump or reload
+      e.preventDefault(); 
 
-            window.scrollTo({
-                top: topPos,
-                behavior: 'smooth'
-            });
-        } 
-        else if (window.location.pathname.includes('book.html')) {
-            // Case 2: We are on book.html and clicking a main section icon
-            // Navigate to index.html and include the hash for the browser to scroll
-            if (iconId === 'logo-icon') {
-                 window.location.href = 'index.html#hero';
-            } else {
-                 // Check if it's the contact section (ID change)
-                 const hash = (targetId === 'contact') ? 'contact' : targetId;
-                 window.location.href = `index.html#${hash}`;
-            }
+      // 2. If it's the booking icon, handle the pop-up modal
+      if (iconId === 'book-icon') {
+        openBookingModal();
+        return;
+      }
+
+      // 3. Do the math and smoothly scroll to the section
+      if (targetSection) {
+        const targetIndex = allSectionsArray.indexOf(targetSection);
+        
+        if (targetIndex !== -1) {
+          // Multiply by the actual computed height of the section to prevent mobile bugs
+          const exactScrollPosition = targetIndex * targetSection.offsetHeight;
+          
+          // Use Lenis if it's active, otherwise fallback to native smooth scroll
+          if (typeof lenis !== 'undefined') {
+            lenis.scrollTo(exactScrollPosition, { duration: 1.5 });
+          } else {
+            window.scrollTo({ top: exactScrollPosition, behavior: 'smooth' });
+          }
         }
+      }
     });
   }
 });
 
+// ==========================================
+// UNIVERSAL STICKY SCROLL SCRUBBING
+// ==========================================
+const allSectionsList = document.querySelectorAll('.page-wrapper > section');
+const heroText = document.getElementById('hero-text-move');
 
-// CAROUSEL LOGIC for 20-second video rotation
-const videoSlides = document.querySelectorAll('.video-slide');
-const dots = document.querySelectorAll('.dot');
-let currentSlide = 0;
-const intervalTime = 20000; // 20 seconds
-let slideInterval;
+window.addEventListener('scroll', () => {
+  let windowHeight = window.innerHeight;
+  let scrollY = window.scrollY;
 
-// Volume Toggle Logic 
+  if (heroText && scrollY < windowHeight) {
+    heroText.style.transform = `scaleY(0.85) translateX(-${scrollY * 1.2}px)`;
+  }
 
-// --- Define your Icon File Paths ---
-const volumeIconUnmutedSrc = 'assets/icons/full.svg'; 
-const volumeIconMutedSrc = 'assets/icons/mute.svg'; // Ensure this file exists!
-// -----------------------------------
-
-const volumeToggle = document.getElementById('volume-toggle');
-const volumeIcon = volumeToggle ? volumeToggle.querySelector('img') : null;
-
-// *** STARTING STATE: Set to true so the script matches the muted HTML ***
-let isMuted = true; 
-
-const toggleVolume = () => {
-    isMuted = !isMuted;
-    
-    // Mute/Unmute all carousel videos
-    const allVideos = document.querySelectorAll('.carousel-video');
-    allVideos.forEach(video => {
-        video.muted = isMuted;
-    });
-    
-    // Update the Icon and Background
-    if (volumeToggle && volumeIcon) {
-        if (isMuted) {
-            volumeIcon.src = volumeIconMutedSrc;
-            volumeIcon.alt = "Volume is Muted";
-            // Add class for Grey BG (Muted state)
-            volumeToggle.classList.add('is-muted'); 
-            volumeToggle.setAttribute('aria-label', 'Unmute volume');
-        } else {
-            volumeIcon.src = volumeIconUnmutedSrc;
-            volumeIcon.alt = "Volume is Unmuted";
-            // Remove class for Green BG (Unmuted state)
-            volumeToggle.classList.remove('is-muted'); 
-            volumeToggle.setAttribute('aria-label', 'Mute volume');
-        }
-    }
-};
-
-if (volumeToggle) {
-    // *** INITIALIZATION BLOCK ***
-    // 1. Ensure the icon starts as the Muted icon
-    if (volumeIcon) {
-        volumeIcon.src = volumeIconMutedSrc; 
-        volumeIcon.alt = "Volume is Muted";
-    }
-    // 2. Ensure the button has the Muted style (Grey BG)
-    volumeToggle.classList.add('is-muted'); 
-    volumeToggle.setAttribute('aria-label', 'Unmute volume');
-
-    // 3. Attach the click listener
-    volumeToggle.addEventListener('click', toggleVolume);
-}
-
-
-// Function to reset all videos (stop playback and rewind)
-const resetVideos = () => {
-    videoSlides.forEach((slide) => {
-        const videoElement = slide.querySelector('video');
-        if (videoElement) {
-            videoElement.pause();
-            videoElement.currentTime = 0; // Rewind to start
-        }
-        slide.classList.remove('active');
-    });
-};
-
-// Function to show a specific slide
-const showSlide = (index) => {
-    if (videoSlides.length === 0) return;
-
-    resetVideos();
-    
-    currentSlide = (index + videoSlides.length) % videoSlides.length;
-    
-    // Update active slide class
-    videoSlides[currentSlide].classList.add('active');
-
-    // Update dots
-    dots.forEach(dot => dot.classList.remove('active'));
-    dots[currentSlide].classList.add('active');
-    
-    // Start playing the new video
-    const currentVideo = videoSlides[currentSlide].querySelector('video');
-    if (currentVideo) {
-        // Ensure muted state is respected
-        currentVideo.muted = isMuted; 
-        currentVideo.play().catch(error => {
-            console.warn("Video playback failed, likely due to browser autoplay policy.", error);
+  allSectionsList.forEach((sec, index) => {
+    const nextSec = allSectionsList[index + 1];
+    if (nextSec) {
+      let nextTop = nextSec.getBoundingClientRect().top;
+      if (nextTop < windowHeight && nextTop > 0) {
+        let progress = 1 - (nextTop / windowHeight);
+        const contentElements = sec.querySelectorAll('.section-title, .coach-container, .services-columns, .ev-title, .ev-info, .stadium-name, .stadium-loc, .contact, .testimonial-carousel');
+        contentElements.forEach(el => {
+          el.style.opacity = 1 - (progress * 2.5);
+          el.style.transform = `translateY(${progress * -100}px)`;
         });
+      } else if (nextTop >= windowHeight) {
+        const contentElements = sec.querySelectorAll('.section-title, .coach-container, .services-columns, .ev-title, .ev-info, .stadium-name, .stadium-loc, .contact, .testimonial-carousel');
+        contentElements.forEach(el => {
+          el.style.opacity = 1;
+          el.style.transform = `translateY(0px)`;
+        });
+      }
     }
-};
-
-// Function to move to the next slide
-const nextSlide = () => {
-    showSlide(currentSlide + 1);
-};
-
-// Event listeners for dots (manual navigation)
-dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => {
-        clearInterval(slideInterval); // Stop auto-play on manual click
-        showSlide(index);
-        // Restart the interval after a manual click
-        slideInterval = setInterval(nextSlide, intervalTime); 
-    });
+  });
 });
 
-// Start the carousel auto-play only when the section is visible
-const videoSection = document.getElementById('videos');
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            // Section is visible, start the carousel
-            if (!slideInterval) {
-                showSlide(currentSlide); // Show the current/first slide and start video
-                slideInterval = setInterval(nextSlide, intervalTime);
-            }
-        } else {
-            // Section is not visible, pause the carousel and reset videos
-            clearInterval(slideInterval);
-            slideInterval = null;
-            resetVideos();
-        }
+// ==========================================
+// CAROUSELS (VIDEO, STADIUM, EVENTS)
+// ==========================================
+const fsVideos = document.querySelectorAll('.fs-video');
+let currentFsVideo = 0;
+if (fsVideos.length > 0) {
+  fsVideos[currentFsVideo].play().catch(() => {});
+  fsVideos.forEach((vid) => {
+    vid.addEventListener('ended', () => {
+      fsVideos[currentFsVideo].classList.remove('active');
+      currentFsVideo = (currentFsVideo + 1) % fsVideos.length;
+      fsVideos[currentFsVideo].classList.add('active');
+      fsVideos[currentFsVideo].play();
     });
-}, { threshold: 0.1 }); // Trigger when 10% of the section is visible
-
-if (videoSection) {
-    observer.observe(videoSection);
+  });
 }
 
-const form = document.getElementById('appointment-form');
-
-if (form) {
-    // Clear form data on unload (a proxy for "session termination" on static sites)
-    window.addEventListener('beforeunload', () => {
-        form.reset();
-    });
+const stadiumSlides = document.querySelectorAll('.stadium-slide');
+let currentStadium = 0;
+let stadiumAutoTimer;
+function showStadium(index) {
+  if (stadiumSlides.length === 0) return;
+  stadiumSlides.forEach(s => s.classList.remove('active'));
+  currentStadium = (index + stadiumSlides.length) % stadiumSlides.length;
+  stadiumSlides[currentStadium].classList.add('active');
+}
+const stLeft = document.querySelector('.stadium-click-left');
+const stRight = document.querySelector('.stadium-click-right');
+if (stLeft && stRight) {
+  stadiumAutoTimer = setInterval(() => showStadium(currentStadium + 1), 7000);
+  stLeft.addEventListener('click', () => { clearInterval(stadiumAutoTimer); showStadium(currentStadium - 1); });
+  stRight.addEventListener('click', () => { clearInterval(stadiumAutoTimer); showStadium(currentStadium + 1); });
 }
 
-// CAROUSEL LOGIC for 10-second Testimonial rotation
+const eventSlides = document.querySelectorAll('.event-slide');
+let currentEvent = 0;
+if (eventSlides.length > 0) {
+  setInterval(() => {
+    eventSlides.forEach(s => s.classList.remove('active'));
+    currentEvent = (currentEvent + 1) % eventSlides.length;
+    eventSlides[currentEvent].classList.add('active');
+  }, 20000);
+}
+
+// ==========================================
+// TESTIMONIALS (INTERSECTION OBSERVER)
+// ==========================================
 const testimonialSlides = document.querySelectorAll('.testimonial-slide');
 let currentTestimonial = 0;
-const testimonialIntervalTime = 10000; // 10 seconds (10000ms)
 let testimonialSlideInterval;
-
-// Function to show a specific testimonial slide
 const showTestimonial = (index) => {
-    if (testimonialSlides.length === 0) return;
-
-    // Remove 'active' from all slides
-    testimonialSlides.forEach(slide => slide.classList.remove('active'));
-
-    // Calculate the new slide index, wrapping around
-    currentTestimonial = (index + testimonialSlides.length) % testimonialSlides.length;
-
-    // Add 'active' to the new slide
-    testimonialSlides[currentTestimonial].classList.add('active');
+  if (testimonialSlides.length === 0) return;
+  testimonialSlides.forEach(slide => slide.classList.remove('active'));
+  currentTestimonial = (index + testimonialSlides.length) % testimonialSlides.length;
+  testimonialSlides[currentTestimonial].classList.add('active');
 };
-
-// Function to move to the next testimonial slide
-const nextTestimonial = () => {
-    showTestimonial(currentTestimonial + 1);
-};
-
-// Start the testimonial carousel auto-play only when the section is visible
 const testimonialSection = document.getElementById('testimonials');
-
 const testimonialObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            // Section is visible, start the carousel
-            if (!testimonialSlideInterval) {
-                showTestimonial(currentTestimonial); // Show the current/first slide
-                testimonialSlideInterval = setInterval(nextTestimonial, testimonialIntervalTime);
-            }
-        } else {
-            // Section is not visible, pause the carousel
-            clearInterval(testimonialSlideInterval);
-            testimonialSlideInterval = null;
-        }
-    });
-}, { threshold: 0.1 }); // Trigger when 10% of the section is visible
-
-if (testimonialSection) {
-    testimonialObserver.observe(testimonialSection);
-}
-
-
-// NEW: Dark/Light Mode Implementation 
-const themeSwitch = document.getElementById('theme-switch');
-const body = document.body;
-const THEME_KEY = 'proOneGoalkeepingTheme';
-
-const applyTheme = (theme) => {
-    const themeIcon = document.getElementById('theme-icon');
-    if (!themeIcon) return; // Exit if element not found
-
-    if (theme === 'light') {
-        body.classList.add('light-mode');
-        // Sun icon d path
-        themeIcon.querySelector('path').setAttribute('d', "M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zM12 1.5a1 1 0 0 1 1 1V5a1 1 0 0 1-2 0V2.5a1 1 0 0 1 1-1zm0 17a1 1 0 0 1 1 1V22a1 1 0 0 1-2 0v-2.5a1 1 0 0 1 1-1zM1.5 12a1 1 0 0 1 1-1H5a1 1 0 0 1 0 2H2.5a1 1 0 0 1-1-1zm17 0a1 1 0 0 1 1-1H22a1 1 0 0 1 0 2h-2.5a1 1 0 0 1-1-1zM4.22 4.22a1 1 0 0 1 1.41 0l1.77 1.77a1 1 0 1 1-1.41 1.41L4.22 5.63a1 1 0 0 1 0-1.41zm12.38 12.38a1 1 0 0 1 1.41 0l1.77 1.77a1 1 0 1 1-1.41 1.41l-1.77-1.77a1 1 0 0 1 0-1.41zM19.78 4.22a1 1 0 0 1 0 1.41L18 7.4a1 1 0 1 1-1.41-1.41l1.77-1.77a1 1 0 0 1 1.41 0zM7.4 18a1 1 0 0 1 0 1.41l-1.77 1.77a1 1 0 1 1-1.41-1.41L6 18a1 1 0 0 1 1.41 0z");
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      if (!testimonialSlideInterval) {
+        showTestimonial(currentTestimonial);
+        testimonialSlideInterval = setInterval(() => showTestimonial(currentTestimonial + 1), 10000);
+      }
     } else {
-        body.classList.remove('light-mode');
-        // Moon icon d path
-        themeIcon.querySelector('path').setAttribute('d', 'M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z');
+      clearInterval(testimonialSlideInterval);
+      testimonialSlideInterval = null;
     }
-};
+  });
+}, { threshold: 0.1 });
+if (testimonialSection) testimonialObserver.observe(testimonialSection);
 
-const toggleTheme = () => {
-    const newTheme = body.classList.contains('light-mode') ? 'dark' : 'light';
+// ==========================================
+// THEME SWITCHER
+// ==========================================
+const themeSwitch = document.getElementById('theme-switch');
+const THEME_KEY = 'proOneGoalkeepingTheme';
+const applyTheme = (theme) => {
+  const themeIcon = document.getElementById('theme-icon');
+  if (!themeIcon) return;
+  if (theme === 'light') {
+    document.body.classList.add('light-mode');
+    themeIcon.querySelector('path').setAttribute('d', "M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zM12 1.5a1 1 0 0 1 1 1V5a1 1 0 0 1-2 0V2.5a1 1 0 0 1 1-1zm0 17a1 1 0 0 1 1 1V22a1 1 0 0 1-2 0v-2.5a1 1 0 0 1 1-1zM1.5 12a1 1 0 0 1 1-1H5a1 1 0 0 1 0 2H2.5a1 1 0 0 1-1-1zm17 0a1 1 0 0 1 1-1H22a1 1 0 0 1 0 2h-2.5a1 1 0 0 1-1-1zM4.22 4.22a1 1 0 0 1 1.41 0l1.77 1.77a1 1 0 1 1-1.41 1.41L4.22 5.63a1 1 0 0 1 0-1.41zm12.38 12.38a1 1 0 0 1 1.41 0l1.77 1.77a1 1 0 1 1-1.41 1.41l-1.77-1.77a1 1 0 0 1 0-1.41zM19.78 4.22a1 1 0 0 1 0 1.41L18 7.4a1 1 0 1 1-1.41-1.41l1.77-1.77a1 1 0 0 1 1.41 0zM7.4 18a1 1 0 0 1 0 1.41l-1.77 1.77a1 1 0 1 1-1.41-1.41L6 18a1 1 0 0 1 1.41 0z");
+  } else {
+    document.body.classList.remove('light-mode');
+    themeIcon.querySelector('path').setAttribute('d', 'M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z');
+  }
+};
+if (themeSwitch) {
+  themeSwitch.addEventListener('click', () => {
+    const newTheme = document.body.classList.contains('light-mode') ? 'dark' : 'light';
     localStorage.setItem(THEME_KEY, newTheme);
     applyTheme(newTheme);
-};
-
-// Apply saved theme on load
-document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem(THEME_KEY) || 'dark'; // Default to dark
-    applyTheme(savedTheme);
-});
-
-if (themeSwitch) {
-    themeSwitch.addEventListener('click', toggleTheme);
+  });
 }
 
+// ==========================================
+// INTRO ANIMATION (ONCE PER SESSION)
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+  const introOverlay = document.getElementById("intro-overlay");
+  const pageWrapper = document.querySelector(".page-wrapper");
+  const savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
+  applyTheme(savedTheme);
 
-// NEW: Service Details Toggle Logic 
-const serviceItems = document.querySelectorAll('.service-item');
-
-serviceItems.forEach(item => {
-    item.addEventListener('click', () => {
-        // Toggle 'active' class on the clicked item
-        item.classList.toggle('active');
-
-        // Optional: Close all other open items
-        serviceItems.forEach(otherItem => {
-            if (otherItem !== item) {
-                otherItem.classList.remove('active');
-            }
-        });
-    });
+  if (introOverlay && pageWrapper) {
+    if (sessionStorage.getItem("introPlayed") === "true") {
+      introOverlay.style.display = "none";
+      pageWrapper.classList.add("visible");
+    } else {
+      setTimeout(() => introOverlay.classList.add("step-2"), 500);
+      setTimeout(() => introOverlay.classList.add("step-3"), 1500);
+      setTimeout(() => introOverlay.classList.add("step-4"), 2500);
+      setTimeout(() => introOverlay.classList.add("step-5"), 4000);
+      setTimeout(() => {
+        pageWrapper.classList.add("visible");
+        introOverlay.style.opacity = "0";
+        setTimeout(() => introOverlay.remove(), 800);
+      }, 5200);
+      sessionStorage.setItem("introPlayed", "true");
+    }
+  }
 });
 
-const preSelectService = () => {
-    // Check if we are on the booking page and if the form exists
-    const serviceSelect = document.getElementById('service');
-    if (!serviceSelect) return;
-
-    // Get the service name from the URL query parameter
-    const urlParams = new URLSearchParams(window.location.search);
-    const serviceName = urlParams.get('service');
-
-    if (serviceName) {
-        // Find the option whose value matches the service name and select it
-        // The service names in the index.html links match the option values in book.html
-        serviceSelect.value = serviceName;
-        
-        // Remove the 'disabled selected' attributes from the default option 
-        // to prevent it from interfering if JavaScript is slow.
-        const defaultOption = serviceSelect.querySelector('option[disabled][selected]');
-        if (defaultOption) {
-             defaultOption.removeAttribute('selected');
-        }
-    }
+// ==========================================
+// BOOKING MODAL, PRE-SELECTION & WEB3FORMS
+// ==========================================
+const modalOptions = {
+  coaching: ["EVALUATION", "PRESEASON", "TRAINING"],
+  analysis: ["TRAINING ANALYSIS", "PERFORMANCE ANALYSIS", "GAME PLANNING", "SCOUTING REPORT", "WORKLOAD MANAGEMENT"],
+  development: ["MENTORING PROGRAM", "DUAL CAREER PLANNING"],
+  performance: ["NUTRITION PLANNING", "FITNESS"]
 };
 
-// Apply pre-selection logic on load
-preSelectService();
+const bookingModal = document.getElementById('booking-modal');
+const bookingForm = document.getElementById('appointment-form');
+const successOverlay = document.getElementById('success-overlay');
+
+function openBookingModal() {
+  bookingModal.style.display = 'flex';
+  document.body.classList.add('modal-open'); // Lock Background Scroll
+  if (typeof lenis !== 'undefined') lenis.stop(); // Stops Lenis scroll physics
+}
+
+function closeBookingModal() {
+  bookingModal.style.display = 'none';
+  document.body.classList.remove('modal-open'); // Unlock Background Scroll
+  if (typeof lenis !== 'undefined') lenis.start(); // Resumes Lenis scroll physics
+}
+
+// 1. Handle Main Book Icon Click (Opens empty form)
+const mainBookIcon = document.getElementById('book-icon');
+if (mainBookIcon) {
+    mainBookIcon.addEventListener('click', (e) => {
+        e.preventDefault();
+        if(bookingForm) bookingForm.reset(); // Clear previous selections
+        
+        // Reset secondary dropdown
+        const optionSelect = document.getElementById('service-option');
+        if(optionSelect) optionSelect.innerHTML = '<option value="" disabled selected>Select Option</option>';
+        
+        openBookingModal();
+    });
+}
+
+// 2. Handle Services Links (WITH SMART AUTO-SELECT)
+document.querySelectorAll('.serv-col a').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    
+    // SMART READ: Find the H3 title in the same column (e.g., "COACHING")
+    const categoryHeading = btn.closest('.serv-col').querySelector('h3');
+    const category = categoryHeading ? categoryHeading.textContent.trim().toLowerCase() : null;
+    
+    // SMART READ: Grab the exact text of the link clicked (e.g., "EVALUATION")
+    const option = btn.textContent.trim();
+    
+    openBookingModal();
+
+    // Auto-fill the dropdowns
+    if (category) {
+        const categorySelect = document.getElementById('service-category');
+        const optionSelect = document.getElementById('service-option');
+
+        // Select the Category
+        categorySelect.value = category;
+        
+        // Force dropdown to trigger the event that builds the secondary list
+        categorySelect.dispatchEvent(new Event('change'));
+
+        // Select the Specific Program
+        if (option) {
+            optionSelect.value = option;
+        }
+    }
+  });
+});
+
+document.getElementById('close-modal')?.addEventListener('click', closeBookingModal);
+
+// Dynamic Dropdown Logic
+document.getElementById('service-category')?.addEventListener('change', function() {
+  const optionsSelect = document.getElementById('service-option');
+  optionsSelect.innerHTML = '<option value="" disabled selected>Select Option</option>';
+  if (modalOptions[this.value]) {
+    modalOptions[this.value].forEach(opt => {
+      const o = document.createElement('option');
+      o.value = opt; o.textContent = opt;
+      optionsSelect.appendChild(o);
+    });
+  }
+});
+
+// Web3Forms Submission + Glass Success Animation
+bookingForm?.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const formData = new FormData(bookingForm);
+  const object = Object.fromEntries(formData);
+  const json = JSON.stringify(object);
+
+  // Show Glass Success Screen
+  successOverlay.style.display = 'flex';
+
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: json
+  })
+  .then(async (response) => {
+    if (response.status == 200) {
+      // Trigger Spin & Expand Animation
+      setTimeout(() => {
+        successOverlay.classList.add('closing');
+        closeBookingModal(); // Close main modal while tick expands
+      }, 1800);
+
+      // Final Cleanup
+      setTimeout(() => {
+        successOverlay.style.display = 'none';
+        successOverlay.classList.remove('closing');
+        bookingForm.reset();
+      }, 2500);
+    } else {
+      alert("Submission failed. Please try again.");
+      successOverlay.style.display = 'none';
+    }
+  })
+  .catch(() => {
+    alert("Error connecting to server.");
+    successOverlay.style.display = 'none';
+  });
+});

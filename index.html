@@ -6,8 +6,15 @@
     <title>Pro One Goalkeeping</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
-  <body>
+  <body class="index-page">
+    <div id="intro-overlay">
+        <img src="assets/logo/logo.png" id="intro-logo" alt="Pro One Logo" />
+        <p id="intro-text">GOALKEEPERS <span class="hero-text-accent2">ACADEMY</span></p>
+    </div>
+
+     <div class="over">
      <div class="page-wrapper">
+    
     <header class="navbar">
       <a href="index.html" class="logo" id="logo-icon">
         <img src="assets/logo/logo.png" alt="Pro One Logo" />
@@ -29,6 +36,10 @@
           <img src="assets/icons/stadium.svg" alt="Stadium Icon" />
           <span>Stadium</span>
         </div> 
+        <div class="icon-card" id="event-icon">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E" alt="Events">
+        <span>Events</span>
+        </div>
         <div class="icon-card" id="testi-icon">
           <img src="assets/icons/testi.svg" alt="Testimonials Icon" />
           <span>Testimonials</span>
@@ -40,66 +51,28 @@
         <a href="book.html" class="icon-card" id="book-icon">
           <img src="assets/icons/bookk.svg" alt="book Icon" />
           <span>Book</span>
-          </a>
-         <div class="icon-card" id="theme-switch">
-    <svg class="theme-switch-icon" id="theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--color-text)"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-    <span>.</span>
-  </div>
-
+        </a>
+        <div class="icon-card" id="theme-switch">
+          <svg class="theme-switch-icon" id="theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--color-text)"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <span>.</span>
+        </div>
       </nav>
-      
     </header>
-
-    <section class="hero" id="hero">
-      <p class="hero-text">PRO ONE  <span class="hero-text-accent">GOALKEEPING ACADEMY</span></p>
+    
+    <section class="hero-new" id="hero">
+      <div class="hero-right-bg"></div>
+      <h1 class="hero-huge-text" id="hero-text-move">PRO<br>ONE.</h1>
     </section>
 
-   <section id="videos" class="section video-section">
-        <div class="video-section-header">
-           
-        </div>
-        
-        <div class="carousel-container">
-            <div class="video-carousel">
-                <div class="video-slide active" data-video-index="0">
-                    <video class="carousel-video" muted playsinline loop>
-                        <source src="assets/vids/ram.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="video-overlay">Save Drills</div>
-                    
-                </div>
-                <div class="video-slide" data-video-index="1">
-                    <video class="carousel-video" muted playsinline loop>
-                        <source src="assets/vids/ram.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="video-overlay">Footwork Training</div>
-                     
-                </div>
-                <div class="video-slide" data-video-index="2">
-                    <video class="carousel-video" muted playsinline loop>
-                        <source src="assets/vids/ram.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="video-overlay">Reaction Time</div>
-                     
-                </div>
-            </div>
-            <div class="carousel-dots">
-                <button class="dot active" data-slide-to="0"></button>
-                <button class="dot" data-slide-to="1"></button>
-                <button class="dot" data-slide-to="2"></button>
-            </div>
-            <br>
-            <div class="volume-toggle" id="volume-toggle">
-                        <img src="assets/icons/mute.svg" alt="Testimonials Icon" />
-                      </div>
-        </div>
+    <section id="videos" class="video-fs-section">
+      <video class="fs-video active" src="assets/vids/video.mp4" muted playsinline></video>
+      <video class="fs-video" src="assets/vids/video.mp4" muted playsinline></video>
+      <video class="fs-video" src="assets/vids/video.mp4" muted playsinline></video>
+      <video class="fs-video" src="assets/vids/video.mp4" muted playsinline></video>
     </section>
 
-    <section id="coach" class="section">
-      <h2 class="section-title">Coach</h2>
+    <section id="coach" class="section section-coach">
+      <h2 class="section-title">COACH.</h2>
       <div class="coach-container">
         <div class="card">
           <div class="card-image" style="background-image: url('assets/images/coach.jpg');"></div>
@@ -116,120 +89,102 @@
       </div>
     </section>
 
-    <section id="services" class="section section-fullwidth">
-        <h2 class="section-title">Services</h2>
-        <div class="services-content">
-            <p>
-                At Pro One Goalkeeping, we provide professional training programs for goalkeepers of all levels.
-                From one-on-one coaching sessions to advanced technique workshops, our focus is on helping athletes
-                unlock their full potential through personalized attention and cutting-edge methods.
-            </p>
-        </div>
+   <section id="services" class="section section-services">
+        <h2 class="section-title">SERVICES.</h2>
         
-        <div class="services-grid">
-            <div class="service-item" data-service="training">
-                <div class="service-icon-wrapper">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                </div>
-                <div class="service-name">Training</div>
-                <div class="service-details">
-                    Intense, personalized sessions focusing on technical excellence.<br><br>
-                            <a href="book.html?service=Training" class="card-link">BOOK NOW</a>                </div>
+        <div class="services-columns" id="services-bullets-move">
+            <div class="serv-col">
+                <h3>COACHING</h3>
+                <ul>
+                    <li>
+                        <a href="#" data-category="coaching" data-option="EVALUATION">EVALUATION</a>
+                        <div class="hover-desc">Assess your current skills and baseline metrics.</div>
+                    </li>
+                    <li>
+                        <a href="#" data-category="coaching" data-option="PRESEASON">PRESEASON</a>
+                        <div class="hover-desc">Intense preparation before the competitive matches begin.</div>
+                    </li>
+                    <li>
+                        <a href="#" data-category="coaching" data-option="TRAINING">TRAINING</a>
+                        <div class="hover-desc">Ongoing technical and tactical field sessions.</div>
+                    </li>
+                </ul>
             </div>
             
-            <div class="service-item" data-service="analysis">
-                <div class="service-icon-wrapper">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
-                </div>
-                <div class="service-name">Analysis</div>
-                <div class="service-details">
-                    In-depth video review of performance to identify strengths and weaknesses.<br><br>
-                             <a href="book.html?service=Analysis" class="card-link">BOOK NOW</a>
-                </div>
+            <div class="serv-col">
+                <h3>ANALYSIS</h3>
+                <ul>
+                    <li><a href="#" data-category="analysis" data-option="TRAINING ANALYSIS">TRAINING ANALYSIS</a><div class="hover-desc">Video breakdown of practice habits.</div></li>
+                    <li><a href="#" data-category="analysis" data-option="PERFORMANCE ANALYSIS">PERFORMANCE ANALYSIS</a><div class="hover-desc">In-depth match day reviews.</div></li>
+                    <li><a href="#" data-category="analysis" data-option="GAME PLANNING">GAME PLANNING</a><div class="hover-desc">Strategic preparation for specific opponents.</div></li>
+                    <li><a href="#" data-category="analysis" data-option="SCOUTING REPORT">SCOUTING REPORT</a><div class="hover-desc">Detailed profiles on opposition attackers.</div></li>
+                    <li><a href="#" data-category="analysis" data-option="WORKLOAD MANAGEMENT">WORKLOAD MANAGEMENT</a><div class="hover-desc">Tracking fatigue to prevent injury.</div></li>
+                </ul>
             </div>
             
-            <div class="service-item" data-service="scouting">
-                <div class="service-icon-wrapper">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                </div>
-                <div class="service-name">Scouting</div>
-                <div class="service-details">
-                    Talent identification and personalized development plans for career advancement.<br><br>
-                              <a href="book.html?service=Scouting" class="card-link">BOOK NOW</a>
-                </div>
+            <div class="serv-col">
+                <h3>DEVELOPMENT</h3>
+                <ul>
+                    <li><a href="#" data-category="development" data-option="MENTORING PROGRAM">MENTORING PROGRAM</a><div class="hover-desc">Guidance on mindset and professionalism.</div></li>
+                    <li><a href="#" data-category="development" data-option="DUAL CAREER PLANNING">DUAL CAREER PLANNING</a><div class="hover-desc">Balancing football with education or business.</div></li>
+                </ul>
             </div>
             
-            <div class="service-item" data-service="gameplanning">
-                <div class="service-icon-wrapper">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-12c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/></svg>
-                </div>
-                <div class="service-name">Game Planning</div>
-                <div class="service-details">
-                    Strategic preparation for upcoming matches, focusing on opposition tactics.<br><br>
-                              <a href="book.html?service=Game Planning" class="card-link">BOOK NOW</a>
-                </div>
-            </div>
-            
-            <div class="service-item" data-service="onlinecoaching">
-                <div class="service-icon-wrapper">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h7l-2 3v1h8v-1l-2-3h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H4V5h16v11z"/></svg>
-                </div>
-                <div class="service-name">Online Coaching</div>
-                <div class="service-details">
-                    Flexible remote sessions and curriculum for goalkeepers worldwide.<br> <br>
-                              <a href="book.html?service=Online Coaching" class="card-link">BOOK NOW</a>
-
-                </div>
-            </div>
-            
-            <div class="service-item" data-service="videocall">
-                <div class="service-icon-wrapper">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-                </div>
-                <div class="service-name">Video Call</div>
-                <div class="service-details">
-                    One-on-one virtual meetings for immediate feedback and advice. <br><br>
-                              <a href="book.html?service=Video Call" class="card-link">BOOK NOW</a>
-                </div>
+            <div class="serv-col">
+                <h3>PERFORMANCE</h3>
+                <ul>
+                    <li><a href="#" data-category="performance" data-option="NUTRITION PLANNING">NUTRITION PLANNING</a><div class="hover-desc">Dietary strategies for peak athletic output.</div></li>
+                    <li><a href="#" data-category="performance" data-option="FITNESS">FITNESS</a><div class="hover-desc">Strength and conditioning tailored for goalkeepers.</div></li>
+                </ul>
             </div>
         </div>
     </section>
 
-    <section id="stadiums" class="section">
-      <h2 class="section-title">Stadiums</h2>
-      <div class="card-grid">
-        <div class="card">
-          <div class="card-image" style="background-image: url('assets/images/marsCity.png');"></div>
-          <div class="card-info"><p>Marousi City</p>
-            <div class="card-details">
-          <p class="card-street">Ειρήνης 26, Μαρούσι 151 26</p>
-          <a href="https://www.google.com/maps/place/MAROUSSI+CITY+TRAINING+CENTER/@38.0446661,23.8218231,17z/data=!3m1!4b1!4m6!3m5!1s0x14a199004d914749:0x1fd8b34a7f2b73f8!8m2!3d38.0446619!4d23.8244034!16s%2Fg%2F11wfjwqvsz?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">View on Maps</a>
-        </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-image" style="background-image: url('assets/images/takXar.jpg');"></div>
-          <div class="card-info"><p>Takhs Xaralabidis</p>
-          <div class="card-details">
-          <p class="card-street">Ιερά Οδός 240, Χαϊδάρι 124 61</p>
-          <a href="https://www.google.com/maps/place/Δημοτικό+Γήπεδο+Τάκης+Χαραλαμπίδης/@38.0029561,23.6567755,16.97z/data=!4m6!3m5!1s0x14a1bb517f28ad0f:0xbe1ef172f8a213e3!8m2!3d38.0029468!4d23.6593732!16s%2Fg%2F11ckvwcn1s?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">View on Maps</a>
-        </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-image" style="background-image: url('assets/images/Kick.jpg');"></div>
-          <div class="card-info"><p>Kicks Academy</p>
-          <div class="card-details">
-          <p class="card-street">Ο.Τ. 49 Επιχειρηματικό Πάρκο / 5η οδός, Φοίνικας, Σπάτα 190 04</p>
-          <a href="https://www.google.com/maps/place/Kicks+Academy/@37.977522,23.9292326,17z/data=!3m1!4b1!4m6!3m5!1s0x14a19be9b173b98d:0xde1795d42364a74!8m2!3d37.9775178!4d23.9318129!16s%2Fg%2F11tmftjgns?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">View on Maps</a>
-        </div>
-          </div>
-        </div>
+    <section id="stadiums" class="stadiums-fs-section">
+      <div class="stadium-slide active" style="background-image: url('assets/images/marsCity.png');">
+         <div class="stadium-gradient-overlay"></div>
+         <h2 class="stadium-name">MAROUSI<br>CITY</h2>
+         <div class="stadium-loc">Ειρήνης 26, Μαρούσι 151 26<br><a href="https://www.google.com/maps/place/MAROUSSI+CITY+TRAINING+CENTER/@38.0446661,23.8218231,17z/data=!3m1!4b1!4m6!3m5!1s0x14a199004d914749:0x1fd8b34a7f2b73f8!8m2!3d38.0446619!4d23.8244034!16s%2Fg%2F11wfjwqvsz?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D" target="_blank">View in Maps</a></div>
       </div>
+      <div class="stadium-slide" style="background-image: url('assets/images/takXar.jpg');">
+         <div class="stadium-gradient-overlay"></div>
+         <h2 class="stadium-name">TAKHS<br>XARALABIDIS</h2>
+         <div class="stadium-loc">Ιερά Οδός 240, Χαϊδάρι 124 61<br><a href="https://www.google.com/maps/place/Δημοτικό+Γήπεδο+Τάκης+Χαραλαμπίδης/@38.0029561,23.6567755,16.97z/data=!4m6!3m5!1s0x14a1bb517f28ad0f:0xbe1ef172f8a213e3!8m2!3d38.0029468!4d23.6593732!16s%2Fg%2F11ckvwcn1s?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D" target="_blank">View in Maps</a></div>
+      </div>
+      <div class="stadium-slide" style="background-image: url('assets/images/Kick.jpg');">
+         <div class="stadium-gradient-overlay"></div>
+         <h2 class="stadium-name">KICKS<br>ACADEMY</h2>
+         <div class="stadium-loc">Ο.Τ. 49 Επιχειρηματικό Πάρκο, Σπάτα<br><a href="https://www.google.com/maps/place/Kicks+Academy/@37.977522,23.9292326,17z/data=!3m1!4b1!4m6!3m5!1s0x14a19be9b173b98d:0xde1795d42364a74!8m2!3d37.9775178!4d23.9318129!16s%2Fg%2F11tmftjgns?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D" target="_blank">View in Maps</a></div>
+      </div>
+
+      <div class="stadium-click-left"></div>
+      <div class="stadium-click-right"></div>
     </section>
-    <section id="testimonials" class="section">
-    <h2 class="section-title">Testimonials</h2>
-    <div class="testimonial-carousel">
+
+    <section id="Events" class="events-new-section">
+        <h2 class="section-title">EVENTS.</h2>
+        
+        <div class="events-carousel-wrapper">
+            <div class="event-slide active">
+                <h3 class="ev-title">PRE-SEASON<br>TRAINING</h3>
+                <div class="ev-info">
+                    <p>Restoring explosiveness and sharpening reflexes after the off-season break. The program emphasizes technical fundamentals—such as handling, footwork, and positioning—while gradually increasing physical intensity. The ultimate goal is to build a foundation of consistency and confidence before the first competitive match.</p>
+                </div>
+            </div>
+            
+            <div class="event-slide">
+                <h3 class="ev-title">ELITE<br>EVALUATION</h3>
+                <div class="ev-info">
+                    <p>A comprehensive two-day camp designed to stress-test your mechanics, decision making, and physical output under pressure. Get professional feedback from top-tier coaches and walk away with a personalized roadmap for your development.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="section section-testimonials">
+      <h2 class="section-title" style="position:relative; z-index:2;">TESTIMONIALS.</h2>
+      <div class="testimonial-carousel" style="position:relative; z-index:2;">
+        
         <div class="testimonial-slide active">
             <div class="coach-container">
                 <div class="card">
@@ -283,13 +238,12 @@
                 </div>
             </div>
         </div>
-    </div>
-</section>
-
+      </div>
+    </section>
    
-    <section id="contact" class="section two-column">
+    <section id="contact" class="section section-contact two-column">
       <div class="contact">
-        <h2 class="section-title">Contact Us</h2>
+        <h2 class="section-title">CONTACT US.</h2>
         <p>Email: info@proonegoalkeeping.com</p>
         <p>Phone: (+30) 6937970286</p>
         <p>WhatsApp: (+30) 6937970286</p>
@@ -299,7 +253,7 @@
           <span>Instagram</span>
         </div>
         <div class="icon-card" id="facebook-icon">
-         <a  href="https://www.facebook.com/ProOneGoalkeeping/?eid=ARB3qvnK1vWxH6oAC9BDr2fE_7tQ0eSQLYM7PuNAmCg63JZLjoxB6nQb9TsiWbfu5yeb0B2Moxf_lc1R&hc_ref=ARTnPENzWwArqif51XXD2Fl0Ef4iiyVhtnscOkoWCkJSljL2m0X3nZ5Ux7qn0K2Oaa8&fref=nf&__xts__[0]=68.ARCa-s3TWZzlHi5ZLfme_G3yO0X0PL4PGjvpIQocdbPSBCPXaKagsbMeyDEj0llDpmUimvakY-M59xtACSX6nfkuqXAeM3o8iJkqDKirhISoqjJIemWMjz06Vef_eAhb7Dt42124uzI6rOwnagAK9m9LzT8NeAR_VNi4UWAObE2H0IfnaFCT644uH1E7ihnsE0kXjbsmkqU31JfyeHosdUePiD6Tc9cMln-Zzj9ML4nC-RWQ21Fhi1n2fvQ-PtVsjH6y2nppDPsUpk3Z7o4cYDeKVmLfVW1JIdLDfa0Pf-FX6gfxzTpV-QEWFuV5XBZbIXWCl5721ab_-3oOBalFowEiTH39"> <img src="assets/icons/facebook.svg" alt="Facebook" /></a>
+         <a href="https://www.facebook.com/"> <img src="assets/icons/facebook.svg" alt="Facebook" /></a>
           <span>Facebook</span>
         </div>
         <div class="icon-card" id="tik tok-icon">
@@ -308,17 +262,68 @@
         </div>
          </nav>
       </div>
-      </section>
+    </section>
 
-      <div class="powered-by">
-        <a href="https://buymeacoffee.com/g_d1m" target="_blank" aria-label="Support the developer">
-            <p>powerd by george</p>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--accent-green)">
-                <path d="M20 3H4v10c0 2.76 2.24 5 5 5h4c2.76 0 5-2.24 5-5V7h2c1.11 0 2-.89 2-2s-.89-2-2-2zM4 5h14v2h-2v2h-2v-2H6V5zm12 11c0 1.65-1.35 3-3 3h-4c-1.65 0-3-1.35-3-3V9h10v7z"/>
-            </svg>
-        </a>
+ <div id="booking-modal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-modal" id="close-modal">&times;</button>
+        
+        <div class="modal-split">
+            <div class="modal-left-black">
+                <h2 class="modal-huge-text">Book Your<br>Elite Session Now<span class="accent-dot">.</span></h2>
+            </div>
+            
+            <div class="modal-right-gradient">
+                <form id="appointment-form" action="https://api.web3forms.com/submit" method="POST" class="glass-form">
+    <input type="hidden" name="access_key" value="30b061ac-cef1-472c-91e1-04b18174b218">
+    
+    <input type="hidden" name="subject" value="New Elite Session Booking">
+    
+    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name" placeholder="John Doe" required>
     </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="you@example.com" required>
+    </div>
+    <div class="form-group">
+        <label>Service Category</label>
+        <select name="service_category" id="service-category" required>
+            <option value="" disabled selected>Select Category</option>
+            <option value="coaching">Coaching</option>
+            <option value="analysis">Analysis</option>
+            <option value="development">Development</option>
+            <option value="performance">Performance</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Specific Program</label>
+        <select name="specific_program" id="service-option" required>
+            <option value="" disabled selected>Select Option</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Message</label>
+        <textarea name="message" rows="4" placeholder="Tell us about your goalkeeping experience..."></textarea>
+    </div>
+    <button type="submit" class="submit-button">SENT</button>
+</form>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <script src="js/script.js"></script>
+<div id="success-overlay" class="success-overlay">
+    <div class="success-content">
+        <svg class="success-svg" viewBox="0 0 52 52">
+            <path class="success-tick" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+    </div>
+</div>
+</div> </div> <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    </div> </div> <script src="js/script.js"></script>
   </body>
 </html>
