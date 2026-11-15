@@ -27,3 +27,7 @@ Videos must stay under 25 MB each (Cloudflare's per-file limit).
 ## Booking form
 
 The booking form sends submissions through [Web3Forms](https://web3forms.com).
+
+## Browser support
+
+Works in current Chrome, Safari, Firefox and Edge, on desktop and phones.
