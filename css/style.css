@@ -720,6 +720,9 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#000000", en
     #intro-overlay.step-5 #intro-logo { left: 14px; }
     #intro-text { font-size: 1.3rem; }
 
+    /* Hero: bigger "PRO ONE." on phones */
+    .hero-huge-text { font-size: 32vw; }
+
     /* Sections */
     .section, .events-new-section { padding: 95px 6% 30px; }
     .section-title { font-size: 2.8rem; margin-bottom: 20px; }
